@@ -1,0 +1,117 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+using namespace std;
+
+
+string gameWin(string comp, string player) {
+    if (comp == player) {
+        return "tie";
+    } else if (comp == "s") {
+        if (player == "w") {
+            return "false";
+        } else if (player == "g") {
+            return "true";
+        }
+    } else if (comp == "w") {
+        if (player == "g") {
+            return "false";
+        } else if (player == "s") {
+            return "true";
+        }
+    } else if (comp == "g") {
+        if (player == "s") {
+            return "false";
+        } else if (player == "w") {
+            return "true";
+        }
+    }
+    return "tie";
+}
+
+
+string getChoiceName(string choice) {
+    if (choice == "s") {
+        return "Snake";
+    } else if (choice == "w") {
+        return "Water";
+    } else if (choice == "g") {
+        return "Gun";
+    }
+    return "Invalid";
+}
+
+int main() {
+    srand(time(0)); 
+    int playerScore = 0;
+    int computerScore = 0;
+    bool playAgain = true;
+    string player, comp, result;
+
+    cout << "Welcome to Snake, Water, Gun Game!" << endl;
+
+    while (playAgain) {
+        cout << "\nPlayer's Turn: Snake(s), Water(w), Gun(g): ";
+        cin >> player;
+
+    
+        while (player != "s" && player != "w" && player != "g") {
+            cout << "Invalid input! Please choose Snake(s), Water(w), or Gun(g): ";
+            cin >> player;
+        }
+
+        
+        int randNo = rand() % 3 + 1;
+        if (randNo == 1) {
+            comp = "s";
+        } else if (randNo == 2) {
+            comp = "w";
+        } else if (randNo == 3) {
+            comp = "g";
+        }
+
+        cout << "Computer chose: " << getChoiceName(comp) << endl;
+        cout << "Player chose: " << getChoiceName(player) << endl;
+
+        
+        result = gameWin(comp, player);
+        if (result == "tie") {
+            cout << "It's a tie!" << endl;
+        } else if (result == "true") {
+            cout << "You won this round!" << endl;
+            playerScore++;
+        } else {
+            cout << "You lost this round!" << endl;
+            computerScore++;
+        }
+
+        
+        cout << "\nScores - Player: " << playerScore << " | Computer: " << computerScore << endl;
+
+        
+        string replay;
+        cout << "\nDo you want to play again? (yes/no): ";
+        cin >> replay;
+
+        
+        while (replay != "yes" && replay != "no") {
+            cout << "Invalid input! Please enter 'yes' or 'no': ";
+            cin >> replay;
+        }
+        playAgain = (replay == "yes");
+    }
+
+    
+    cout << "\nFinal Scores - Player: " << playerScore << " | Computer: " << computerScore << endl;
+    if (playerScore > computerScore) {
+        cout << "Congratulations! You won the game!" << endl;
+    } else if (playerScore < computerScore) {
+        cout << "Sorry! You lost the game." << endl;
+    } else {
+        cout << "The game ended in a tie!" << endl;
+    }
+
+    cout << "\nThank you for playing!" << endl;
+    return 0;
+}
